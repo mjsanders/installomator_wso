@@ -11,6 +11,7 @@ yes
 - [Introduction](#introduction)
 - [Requirements](#requirements)
 
+## Introduction
 - The Support app is a macOS menu bar app built for organizations to:
 * Help users and helpdesks to see basic diagnostic information at a glance and proactively notify them to easily fix small issues.
 * Offer shortcuts to easily access support channels or other company resources such as a website or a file server
