@@ -108,8 +108,12 @@ Therefor we created a custom script that loops through a list of apps, and if an
 * WorkspaceONE UEM ??
 
 ## Links
-Omnissa / VMware : 
-[Introduction to VMware Workspace ONE Admin Assistant for macOS](https://docs.omnissa.com/bundle/Admin-AssistantVSaaS/page/AdminAssistantIntro.html)
-[macOS Device Enrollment - bootstrap package](https://docs.omnissa.com/nl-NL/bundle/macOS-Device-ManagementVSaaS/page/EnrollmentOverview.html#bootstrap_package_creation)
-robjschroeder:  [App Auto-Patch (2.9.3) via swiftDialog (2.4.0)](https://techitout.xyz/2024/02/18/app-auto-patch-2-9-3-via-swiftdialog-2-4-0/)
-Elliot Jordan [YOU MIGHT LIKE MUNKIPKG](https://www.elliotjordan.com/posts/munkipkg-01-intro/)
+Omnissa / VMware :
+* [Introduction to VMware Workspace ONE Admin Assistant for macOS](https://docs.omnissa.com/bundle/Admin-AssistantVSaaS/page/AdminAssistantIntro.html)
+* [macOS Device Enrollment - bootstrap package](https://docs.omnissa.com/nl-NL/bundle/macOS-Device-ManagementVSaaS/page/EnrollmentOverview.html#bootstrap_package_creation)
+
+robjschroeder:  
+* [App Auto-Patch (2.9.3) via swiftDialog (2.4.0)](https://techitout.xyz/2024/02/18/app-auto-patch-2-9-3-via-swiftdialog-2-4-0/)
+
+Elliot Jordan 
+* [YOU MIGHT LIKE MUNKIPKG](https://www.elliotjordan.com/posts/munkipkg-01-intro/)
