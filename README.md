@@ -190,11 +190,11 @@ Output of Admin Assistant is default in your `~/Documents/Workspace ONE Admin As
 
 ## Create app with payload-free pkg in WSO
 Navigate to the Resources - Apps in WSO and add a new app:
-<img src="images/App-iTerm-1.png">
+<img src="images/app-iTerm-1.png">
 Upload the .pkg file from the WSO Admin assistant output.
 Click on **Continue**
 
-<img src="images/App-iTerm-2.png">
+<img src="images/app-iTerm-2.png">
 Select **Full Software Management**
 
 Upload the .plist file from the WSO Admin assistant output as the metadata file.
@@ -202,21 +202,21 @@ Click on **Continue**
 
 
 Review the settings in the Details section
-<img src="images/App-iTerm-3.png">
+<img src="images/app-iTerm-3.png">
 Scroll down and add a Description
-<img src="images/App-iTerm-4.png">
+<img src="images/app-iTerm-4.png">
 
 Click on the **Images** section
-<img src="images/App-iTerm-5.png">
+<img src="images/app-iTerm-5.png">
 and add the icon file found earlier.
 
 Click on the Scripts section
-<img src="images/App-iTerm-6.png">
+<img src="images/app-iTerm-6.png">
 Copy the (same) script (example [install-iTerm.sh](wso_scripts/install-iTerm.sh)) into the Pre-Install script section.
 (we recommend Pre-install to give user faster feedback)
 
 At this point I want to encourage you to scroll down and take a look at the (optional) uninstall script section.
-<img src="images/App-iTerm-7.png">
+<img src="images/app-iTerm-7.png">
 We use the [uninstaller](https://github.com/erikstam/uninstaller) project for many apps. 
 *(the iTerm example is poorly choosen, the label iterm2 is not yet supported), but just to show the possibilities it is included*
 
