@@ -18,7 +18,7 @@ Table of contents:
 	- [Hub view of app](#hub-view-of-app)
 	- [Troubleshooting app installation](#troubleshooting-app-installation)
 - [Versioning system with payload-free pkg](#versioning-system-with-payload-free-pkg)
-- [recommendations for your choice script or app](#recommendations-for-your-choice-script-or-app)
+- [Recommendations for your choice script or app](#recommendations-for-your-choice-script-or-app)
 - [Note on patch management for WSO and Installomator](#note-on-patch-management-for-wso-and-installomator)
 - [Links](#links)
 
@@ -372,7 +372,7 @@ WSO requires any app to have a version. We choose the version of the payload-fre
 We do use my.org.app identifier to prevent any confusion.
 (see troubleshooting app installation section for an example)
 
-# recommendations for your choice script or app
+# Recommendations for your choice script or app
 From the screenshots above you can see the user interface for both verions.
 
 The script method is easier to configure, but we do not like the 'Run' and "Rerun' buttons shown in the Hub.
