@@ -1,9 +1,9 @@
 # Documentation for using Installomator in WorkspaceONE UEM
 
 
-<img src="images/Privileges_icon_unlocked.png">
+<img src="images/workspaceone-logo.png">
 
-
+Table of contents:
 - [Documentation for using Installomator in WorkspaceONE UEM](#documentation-for-using-installomator-in-workspaceone-uem)
   - [Introduction](#introduction)
   - [Building Block : install Installomator](#building-block--install-installomator)
@@ -42,12 +42,68 @@ How can we present this script to the user or make WSO run this script?
 
 ## Choice : use Script or App?
 
-To make icons available in the Hub for Self-Service you can add a **script** or an **internal App** to the Hub.
+To make icons available in the Hub for Self-Service you can add a **script** or an **internal App** to the Hub. We will show both options.
 
 ### Scripts
 Scripts can be run at specific moments, or on-demand from the Hub, with icon, description.
 If you add a script to the Hub for self-service, the button is 'Run/Rerun'
+
+
 Example in WSO:
+**Add** a script for macOS :
+
+Choose a name, Description and enable App Catalog Customisation, add logo similar to this:
+<img src="images/script-iTerm-1.png">
+Click **Next**
+
+Choose Languare **Zsh**, execution context and timeout (the default 30 seconds is short) and copy the script (example [install-iTerm.sh](wso_scripts/install-iTerm.sh)) similar to this:
+<img src="images/script-iTerm-2.png">
+Click **Next**
+
+There is no need to use variables, so 
+<img src="images/script-iTerm-3.png">
+Click **Save**
+
+**Re-select** the script to create assignment:
+<img src="images/Scripts-Install-or-update-iterm.png">
+Click **Assign**
+
+Choose a descriptive name, and the correct smart groups similar to this:
+<img src="images/assign-iTerm-1.png">
+Click **Next**
+
+Choose **NO** triggers, but  **enable** Show in Hub (optional)
+<img src="images/assign-iTerm-2.png">
+Click **Add**
+
+Done!
+
+Go to a client to confirm this script is available in the Hub:
+Open Intelligent Hub, and search for your *app-name*
+<img src="images/hub-app-1.png">
+Notice the title, icon and 'Run' button
+
+If you click on the icon you can see the detailed view:
+<img src="images/hub-app-2.png">
+If you click 'Run' you may see a temporary dialog 'Installing ...your_title...' as this:
+<img src="images/hub-app-3.png">
+The app should be installed soon in /Applications/
+
+Note: if you have run the script once, the button changes to 'Rerun'
+<img src="images/hub-app-rerun.png">
+
+other text ![Rerun](images/hub-app-rerun.png)
+
+
+
+You can troubleshoot in the WSO by searching for the MacBook, and in the **scripts** section you will see the script with a status and last execution time:
+<img src="images/UEM-log-1.png">
+view the detailed logs by clicking on the **View** link below Log
+<img src="images/UEM-log-2.png">
+The logs are shown as one line.
+
+You can troubleshoot locally by inspecting at the Installomator log at `/private/var/log/Installomator.log`
+
 
 ### Internal App
 WSO can run several scripts for any internal (munki-style) software.
