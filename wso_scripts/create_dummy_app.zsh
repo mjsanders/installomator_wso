@@ -1,5 +1,5 @@
 #! /bin/zsh
-# create_instrallomator_app.zsh 
+# create_dummy_app.zsh 
 #
 # Create dummy package for apps installed with installomator
 #
@@ -16,8 +16,8 @@ APP_LABEL=
 APP_LOWER=
 APP_PACKAGE_PATH=
 APP_VERSION=
-BELASTINGDIENST_APP_VERSION=
-BELASTINGDIENST_IDENTIFIER=
+MYORG_APP_VERSION=
+MYORG_IDENTIFIER=
 CATEGORY=
 CODE_SIGN= 
 CUR_DIR=$(pwd)
@@ -80,10 +80,10 @@ Usage()
     echo "--description_file File including path witch contains the description info"
     echo ""
     echo "EXAMPLE 1: creating logitechoptionsplus"
-    echo "${PROGRAM} "'-a logitechoptionsplus -p "/Users/Pijpe00/OneDrive - Belastingdienst/DBO_macOS_Packaging" -s "/Users/Pijpe00/bitbucket/macos_dbo_installomator_logitech_options_plus"'
+    echo "${PROGRAM} "'-a logitechoptionsplus -p "/Users/Shared/WSO/" -s "/Users/Shared/bitbucket/logitech_options_plus"'
     echo ""
     echo "EXAMPLE 2: creating gimp app with debugging on"
-    echo "${PROGRAM} "'-a gimp -p "~/OneDrive - Belastingdienst/DBO_macOS_Packaging" -s "~/bitbucket/DBO_macOS_Packaging" -d 1'
+    echo "${PROGRAM} "'-a gimp -p "/Users/Shared/WSO/" -s "/Users/Shared/bitbucket/gimp/" -d 1'
     exit 1
 }
 
@@ -521,7 +521,7 @@ Install_app()
     APP="$(echo ${APP} | sed -e  's%^.*version of %%'  -e 's% is.*$%%')"
   fi
   APP_LOWER=${APP:l}
-  BELASTINGDIENST_IDENTIFIER=nl.belastingdienst.${APP_LOWER}
+  MYORG_IDENTIFIER=my.org.${APP_LOWER}
   if grep "No previous app found" ${LOG} > /dev/null 2>&1
   then
     APP_ALREADY_INSTALLED="False"
@@ -536,7 +536,7 @@ Install_app()
     Display_title "Found variabeles"
     Display_vars APP "${APP}"
     Display_vars APP_ALREADY_INSTALLED "${APP_ALREADY_INSTALLED}"
-    Display_vars BELASTINGDIENST_IDENTIFIER "${BELASTINGDIENST_IDENTIFIER}"
+    Display_vars MYORG_IDENTIFIER "${MYORG_IDENTIFIER}"
   fi
 
   rm -f "${LOG}"
@@ -626,7 +626,7 @@ Get_app_user_settings_files_dirs()
   SOURCE_PATH=$3
   PROGRAM_DIR=$4
   APP_LABEL=$5 
-  BELASTINGDIENST_IDENTIFIER=$6
+  MYORG_IDENTIFIER=$6
   APP_EXECUTABLE=$7
   OUTPUTLOG=${SOURCE_PATH}/data/uninstaller.log
 
@@ -701,7 +701,7 @@ Get_app_info()
   Display_info "Get info about the app"
   APP=$1
   PACKAGE_PATH=$2
-  BELASTINGDIENST_APP_VERSION=$3
+  MYORG_APP_VERSION=$3
   INSTALLED_APP_PATH=$4
   PLIST="${INSTALLED_APP_PATH}/Contents/Info.plist"  
   [[ ! -s "${PLIST}" ]] && Display_error  "${PLIST} not found" 20
@@ -713,8 +713,8 @@ Get_app_info()
   APP_VERSION_KEY="CFBundleShortVersionString"
   APP_VERSION=$(defaults read "${PLIST}" ${APP_VERSION_KEY})
   [[ -z "${APP_VERSION}" ]] && Display_error "${APP_VERSION_KEY} not found in ${PLIST}" 20  
-  BELASTINGDIENST_APP_VERSION=$(date +'%y.%m.%d')
-  [[ "${APP_VERSION}" = "${BELASTINGDIENST_APP_VERSION}" ]] && BELASTINGDIENST_APP_VERSION="0.0.0.1"
+  MYORG_APP_VERSION=$(date +'%y.%m.%d')
+  [[ "${APP_VERSION}" = "${MYORG_APP_VERSION}" ]] && MYORG_APP_VERSION="0.0.0.1"
   APP_VERSION_KEY="CFBundleExecutable"
   APP_EXECUTABLE=$(defaults read "${PLIST}" ${APP_VERSION_KEY})
   [[ -z "${APP_EXECUTABLE}" ]] && Display_Error_Usage "app executable not found" 
@@ -732,14 +732,14 @@ Get_app_info()
       Display_error "Icon file \"${ICON_LOCATION}\" not found" 30
     fi
   fi
-  APP_PACKAGE_PATH="${PACKAGE_PATH}/${APP}/${BELASTINGDIENST_APP_VERSION}"
+  APP_PACKAGE_PATH="${PACKAGE_PATH}/${APP}/${MYORG_APP_VERSION}"
 
   Display_OK
 
   if [[ ${DEBUG} -eq 1 ]]
   then
     Display_title "Found variabeles"
-    Display_vars BELASTINGDIENST_APP_VERSION "${BELASTINGDIENST_APP_VERSION}"
+    Display_vars MYORG_APP_VERSION "${MYORG_APP_VERSION}"
     Display_vars ICON_LOCATION "${ICON_LOCATION}"
     Display_vars ICON_LNAME "${ICON_NAME}"
     Display_vars IDENTIFIER "${IDENTIFIER}"
@@ -939,7 +939,7 @@ Install_script()
         Check_rc $? "Can't copy ${SCRIPT_NAME} template"
         Display_info "Edit ${SCRIPT_NAME} package" 2
         Edit_file "${SCRIPT_DIR}/${SCRIPT_NAME}" %APP%="${APP}" %APP_LABEL%="${APP_LABEL}" \
-             %INSTALLOMATOR%="${INSTALLOMATOR}" %BELASTINGDIENST_IDENTIFIER%="${BELASTINGDIENST_IDENTIFIER}" \
+             %INSTALLOMATOR%="${INSTALLOMATOR}" %MYORG_IDENTIFIER%="${MYORG_IDENTIFIER}" \
              %IDENTIFIER%="${IDENTIFIER}"
       else
         Display_info "remove ${SCRIPT_NAME}" 2
@@ -955,7 +955,7 @@ Install_script()
       Check_rc $? "Can't copy ${SCRIPT_NAME} template"
       Display_info "Edit ${SCRIPT_NAME} package" 2
       Edit_file "${SCRIPT_DIR}/${SCRIPT_NAME}" %APP%="${APP}" %APP_LABEL%="${APP_LABEL}" \
-            %INSTALLOMATOR%="${INSTALLOMATOR}" %BELASTINGDIENST_IDENTIFIER%="${BELASTINGDIENST_IDENTIFIER}" \
+            %INSTALLOMATOR%="${INSTALLOMATOR}" %MYORG_IDENTIFIER%="${MYORG_IDENTIFIER}" \
             %IDENTIFIER%="${IDENTIFIER}"
     fi
   fi
@@ -977,8 +977,8 @@ Edit_dummy_package()
   APP="$1"
   PROGRAM_DIR="$2"
   SOURCE_PATH=$3
-  # Belastingdienst versie <YY.MM.DD>
-  BELASTINGDIENST_VERSION=$(date +'%y.%m.%d')
+  # suggested version <YY.MM.DD>
+  MYORG_VERSION=$(date +'%y.%m.%d')
 
   
   # copy scripts
@@ -1001,10 +1001,10 @@ Edit_dummy_package()
   runAsUser ed -s ${SOURCE_PATH}/munkipkg_project/${APP}/build-info.plist > /dev/null <<- EOF
     /<key>identifier
     +1
-    s=<string>com.github.munki.pkg.*</string>=<string>${BELASTINGDIENST_IDENTIFIER}</string>=
+    s=<string>com.github.munki.pkg.*</string>=<string>${MYORG_IDENTIFIER}</string>=
     /<key>version
     +1
-    s/1.0/${BELASTINGDIENST_VERSION}/
+    s/1.0/${MYORG_VERSION}/
 w
 q
 EOF
@@ -1044,7 +1044,7 @@ Create_package()
   runAsUser makepkginfo "${APP_PACKAGE_PATH}/${DUMMY_PACKAGE_NAME}" -c device_catalog \
     --category=Software --description="${DESCRIPTION}" --developer="${USER}" \
     --displayname="${APP}" --name="${APP}" -r Installomator \
-    > "${APP_PACKAGE_PATH}/${APP}-${BELASTINGDIENST_VERSION}.plist"
+    > "${APP_PACKAGE_PATH}/${APP}-${MYORG_VERSION}.plist"
   Check_rc $? "Cannot create a new plist"
 }
 
@@ -1113,11 +1113,11 @@ Create_documentation()
 
   Display_info "Change documentation" 1
   Edit_file "${SOURCE_PATH}/readme.md" %APP%="${APP}" %APP_LOWER%="${APP_LOWER}"\
-    %APP_VERSION%="${BELASTINGDIENST_APP_VERSION}" %IDENTIFIER%="${IDENTIFIER}" \
+    %APP_VERSION%="${MYORG_APP_VERSION}" %IDENTIFIER%="${IDENTIFIER}" \
     %CODE_SIGN%="${CODE_SIGN}" %SOURCE_PATH%="${SOURCE_PATH}" \
     %ICON_NAME%="${ICON_NAME}" \ %APP_LABEL%="${APP_LABEL}" \
     %SCRIPTS_INCLUDED%="${SCRIPTS_INCLUDED}"  \
-    %BELASTINGDIENST_IDENTIFIER%="${BELASTINGDIENST_IDENTIFIER}"
+    %MYORG_IDENTIFIER%="${MYORG_IDENTIFIER}"
 
   Display_info "Add scripts" 1
   "${SOURCE_PATH}/bin/edit_documentation.zsh"
@@ -1173,7 +1173,7 @@ Check_used_tools
 getUser
 #Check_user_root
 Install_app "${APP_LABEL}"
-Get_app_info "${APP}" "${PACKAGE_PATH}" "${BELASTINGDIENST_APP_VERSION}" "${INSTALLED_APP_PATH}"
+Get_app_info "${APP}" "${PACKAGE_PATH}" "${MYORG_APP_VERSION}" "${INSTALLED_APP_PATH}"
 Create_source_dirs "${SOURCE_PATH}" "${APP_PACKAGE_PATH}"
 Create_description "${SOURCE_PATH}" "${DESCRIPTION_FILE}" "${SCRIPTS_INCLUDED=$3}"
 Check_uninstaller "${APP_LABEL}" "${SOURCE_PATH}" > /dev/null 2>&1
@@ -1182,7 +1182,7 @@ if [[ $? -eq 1 ]]
 then
   # installer app has no information about the app. Get this information
   Start_stop_app "${APP}" "${INSTALLED_APP_PATH}"
-  Get_app_user_settings_files_dirs "${APP}" "${IDENTIFIER}" "${SOURCE_PATH}" "${PROGRAM_DIR}" "${APP_LABEL}" "${BELASTINGDIENST_IDENTIFIER}" "${APP_EXECUTABLE}"
+  Get_app_user_settings_files_dirs "${APP}" "${IDENTIFIER}" "${SOURCE_PATH}" "${PROGRAM_DIR}" "${APP_LABEL}" "${MYORG_IDENTIFIER}" "${APP_EXECUTABLE}"
 fi
 Copy_icon "${ICON_LOCATION}" "${APP_PACKAGE_PATH}" "${SOURCE_PATH}" "${APP_LOWER}"
 Remove_app "${INSTALLED_APP_PATH}"
