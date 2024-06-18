@@ -33,11 +33,11 @@ Main points which effect the use of Installomator are:
 This means that if you install apps with Installomator, you have to manage your app's updates with a custom solution (which can be Installomator based :-)
 
 # Building Block : install Installomator
-Because we have to get Installomator on the Mac, the easiest solution is to use the ready made .pkg from Installomator project, and distribute that to all Mac's as a 'bootstrap package'. Advantage: this gets installed first during enrollment.
+Because we have to get Installomator on the Mac, the easiest solution is to use the ready made .pkg from Installomator project [release page](https://github.com/Installomator/Installomator/releases), and distribute that to all Mac's as a 'bootstrap package'. Advantage: this gets installed during the first moments after enrollment.
 
 *In our org we deploy Installomator as bootstrap pkg, but since our org prefers local language, we distribute an updated version of Installomator with some translations and different defaults as a sub-version i.e. 10.5.3*
 
-Since Installomator is installed locally, all we need to run on the Mac is a short script with this command:
+If Installomator is installed locally, all we need to run on the Mac is a short script with this command:
 
 ```
 /usr/local/Installomator/Installomator.sh iterm2
@@ -69,9 +69,16 @@ Click **Next**
 Choose Languare **Zsh**, execution context and timeout **120** (tailor to your needs, the default 30 is too short).
 Copy the script (example [install-iTerm.sh](wso_scripts/install-iTerm.sh)) similar to this:
 <img src="images/script-iTerm-2.png">
+
+*Sidestep on the Variables in our example script: We use the WSO logo and no notifications, since the user has just clicked a button in the Hub. In our view more notifications will be overkill.
+The result of the logo can be seen in the osascript based dialog if the app is open:*
+<img src="images/quit-webex.png">
+
+
+In the New Script window (at step 2 Details)
 Click **Next**
 
-There is no need to use variables. 
+There is no need to use variables in our setup. 
 <img src="images/script-iTerm-3.png">
 Click **Save**
 
