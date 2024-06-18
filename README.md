@@ -228,15 +228,18 @@ Done!
 ## Hub view of app
 Navigate to the Mac Apps section or search for the app name:
 <img src="images/hub-iterm-1.png">
+
 Note the size (payload free is small), and version.
 
 Click on the icon to show all details for the app:
 <img src="images/hub-iterm-2.png">
+
 Note the description entered before and the **'Install'** button
 
 Click **Install**
 
 You may notice the short notification:
+
 <img src="images/hub-iterm-3.png">
 
 and the app iTerm should be installed soon.
@@ -248,7 +251,9 @@ now **Install** is replaced with **Reinstall** and **Remove**.
 Done !
 
 If you would click **Remove**
+
 <img src="images/hub-iterm-5.png">
+
 the app should be removed using the uninstall script.
 
 ## Troubleshooting app installation
