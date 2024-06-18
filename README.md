@@ -3,9 +3,19 @@
 
 <img src="images/Privileges_icon_unlocked.png">
 
-- [Introduction](#introduction)
-- [Requirements](#requirements)
-- [Links](#links)
+
+- [Documentation for using Installomator in WorkspaceONE UEM](#documentation-for-using-installomator-in-workspaceone-uem)
+  - [Introduction](#introduction)
+  - [Building Block : install Installomator](#building-block--install-installomator)
+  - [Choice : use Script or App?](#choice--use-script-or-app)
+    - [Scripts](#scripts)
+    - [Internal App](#internal-app)
+  - [create payload-free pkg](#create-payload-free-pkg)
+  - [Versioning system](#versioning-system)
+  - [Updating using Installomator](#updating-using-installomator)
+  - [Requirements](#requirements)
+  - [Links](#links)
+
 
 ## Introduction
 WorkspaceONE UEM (in short WSO) has in some regards a different approach to install and update software than other MDM's.
@@ -59,10 +69,14 @@ Hence my recommendation to use a different versioning system for the dummy app.
 We use munkipkg for this.
 Basically you need to do these 3 steps:
 1 create a new project with Munkipkg:
-    % ./munkipkg.py --create ..path/to../iTerm
-2 Edit the info.plist and set the identifier to my.org.iTerm, and version to the current date (24.06.18)
+
+```
+% ./munkipkg.py --create ..path/to../iTerm
+```
+2 Edit the info.plist and set the **identifier** to my.org.iTerm, and **version** to the current date (i.e. 24.06.18)
     example: 
-    ```
+
+ ```
     <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -88,12 +102,15 @@ Basically you need to do these 3 steps:
 </dict>
 </plist>
 ```
-3 create a pkg with munkipkg: 
-    % ./munkipkg.py  ..path/to../iTerm  
+3 create a pkg with munkipkg:
+   ``` 
+   % ./munkipkg.py  ..path/to../iTerm
 pkgbuild: Inferring bundle components from contents of ..path/to../iTerm/payload
 pkgbuild: Writing new component property list to /var/folders/h9/5_fhws_n69504y0p2_yk1tf40000gr/T/tmp2iv56q4f/component.plist
 pkgbuild: Reading components from /var/folders/h9/5_fhws_n69504y0p2_yk1tf40000gr/T/tmp2iv56q4f/component.plist
 pkgbuild: Wrote package to ..path/to../iTerm/build/iTerm-24.06.18.pkg
+```
+
 4 Prepare this pkg for WSO with the WorkspaceONE Admin Assistant.
 ## Versioning system
 We choose the version of the payload-free app to use the date, like 24.06.14. Usually this never is updated. Remember, if one edits the pre-install script, new installs will use this new pre-install script, while the 'app' version is the same.
