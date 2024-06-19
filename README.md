@@ -17,7 +17,7 @@ Table of contents:
 	- [Create app with payload-free pkg in WSO](#create-app-with-payload-free-pkg-in-wso)
 	- [Hub view of app](#hub-view-of-app)
 	- [Troubleshooting app installation](#troubleshooting-app-installation)
-- [Versioning system with payload-free pkg](#versioning-system-with-payload-free-pkg)
+- [Note on versions and identifiers with payload-free pkg](#note-on-versions-and-identifiers-with-payload-free-pkg)
 - [Recommendations for your choice script or app](#recommendations-for-your-choice-script-or-app)
 - [Note on patch management for WSO and Installomator](#note-on-patch-management-for-wso-and-installomator)
 - [Links](#links)
@@ -257,10 +257,20 @@ If you would click **Remove**
 the app should be removed using the uninstall script.
 
 ## Troubleshooting app installation
-In UEM you can be surprised to see two verions of the App installed:
+In UEM you can find the installed Apps by selecting a Mac, click the Apps tab, and select 'All Apps' to see the inventory report.
+
+You may be surprised to see two verions of the App installed:
 <img src="images/UEM-app-iterm-twice.png">
 Notice the two versions:
-One is the app as found by inventory check (3.5.2), the other is the installed (payload-free pkg v24.06.18) by UEM.
+1. version 3.5.2 is the app as found by inventory check
+2. version 24.06.18 is the UEM managed (payload-free pkg).
+
+The version 3.5.2 is related to the identifier `com.googlecode.iterm2' as reported by inventory:
+<img src="images/UEM-iTerm-inventory.png">
+
+The version 24.06.18 is related to the identifier `com.vmw.macos.iTerm' as reported by created by UEM when you created the internal app in the steps above:
+<img src="images/UEM-iTerm-managed.png">
+Notice the different keys listed here, and the 'Install' and 'Remove' buttons
 
 *The same behaviour can be seen if the app verions installed by UEM is using its internal update mechanism.*
 
@@ -372,10 +382,34 @@ Jun 18 2024 21:22:38 +0200 ###    End unattended installer session    ###
 ```
 
 
-# Versioning system with payload-free pkg
-WSO requires any app to have a version. We choose the version of the payload-free app to use the date, like 24.06.14. Usually this never is updated. Remember, if one edits the pre-install script, new installs will use this new pre-install script, while the 'app' version is the same.
-We do use my.org.app identifier to prevent any confusion.
-(see troubleshooting app installation section for an example)
+# Note on versions and identifiers with payload-free pkg
+WSO requires any app to have a **version**. 
+We choose the version of the payload-free app to use the date, like 24.06.14. Usually this never is updated. Remember, if one edits the pre-install script, new installs will use this new pre-install script, while the 'app' version is the same.
+The actual version is shown in the 'All apps' section for a Mac. (see [troubleshooting-app-installation](#troubleshooting-app-installation))
+
+There are four different **identifiers** used in different places. Lets use an example with Chrome: (Installomator label googlechromepkg) because iTerm is installed by expanding a .zip it does not leave a reciept.
+
+Locally there are 2 identifiers found:
+
+```
+% pkgutil --pkgs |grep -i chrome                         
+com.google.Chrome
+my.org.chrome
+```
+1. The `my.org.chrome` is from the payload-free pkg we created.
+2. The `com.google.Chrome` is from the .pkg installed by Installomator.
+
+Some UEM workflows decide based on the `pkgutil --pkg-info` if an update is required or not. Therefor you should use a different identifier for your payload-free app, as the actual app has.
+
+When you look in WSO at the Mac, under Installed apps you will see 2 other identifiers. 
+ (see [troubleshooting-app-installation](#troubleshooting-app-installation) for screenshot examples)
+
+3. The identifier `com.vmware.mac.chrome` is created by UEM at the moment you add an internal app. The name start with com.vmware.mac. and is completed with the App Name.
+This identifier is and used to track installation of managed apps by UEM.
+
+4. The identifier `com.google.Chrome`  is  found by inventory report
+
+See the section on [Note on patch management for WSO and Installomator](#note-on-patch-management-for-wso-and-installomator) how this impacts your patching.
 
 # Recommendations for your choice script or app
 From the screenshots above you can see the user interface for both verions.
@@ -389,7 +423,7 @@ The Remove button is great for user self-support, we train users to Remove and (
 If you want to use WSO for updating apps, remember that WSO will use it's own logs of installation commands to decide it WSO will update an App or not. **NOT** the actually installed version.
 This is also the case with apps that have a built-in update mechanism, and not unique for the Installomator mechanism.
 
-*Example: You have a .pkg for Google Chrome v103, and installed that on a client. Using installomator (or the internal Chrome updater) that app is updated to v114. If one would 'update' the Chrome pkg in WSO with v113, WSO will install v113 on the client, because it is an update to v103 previously installed. In reality this is a downgrade from v114 to v113.*
+*Example: You have a .pkg for Google Chrome v103, and installed that on a client. Using installomator (or the internal Chrome updater) that app is updated to v114. If one would 'update' the Chrome pkg in WSO with v113, WSO will install v113 on the client, because it is an update to the (managed) v103 previously installed. In reality this is a downgrade from v114 to v113.*
 
 So for both self-updating apps, as for Installomator installed apps the WSO mechanism for updating is not well-suited.
 
