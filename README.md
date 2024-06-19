@@ -1,11 +1,11 @@
-# Documentation for using Installomator in WorkspaceONE UEM
+# Installing apps using Installomator in WorkspaceONE UEM
 
 
 <img src="images/workspaceone-logo.png">
 
 Table of contents:
 
-- [Documentation for using Installomator in WorkspaceONE UEM](#documentation-for-using-installomator-in-workspaceone-uem)
+- [Installing apps using Installomator in WorkspaceONE UEM](#installing-apps-using-installomator-in-workspaceone-uem)
 - [Introduction](#introduction)
 - [Building Block : install Installomator](#building-block--install-installomator)
 - [Choice : use Script or App?](#choice--use-script-or-app)
