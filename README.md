@@ -3,7 +3,11 @@
 
 <img src="images/workspaceone-logo.png">
 
-Table of contents:
+By Maurits Sanders, Apple Engineer @ Pro Warehouse
+
+MacAdmins slack: [@maurits](https://macadmins.slack.com/team/U0AKAA678)
+
+**Table of contents:**
 
 - [Installing apps using Installomator in WorkspaceONE UEM](#installing-apps-using-installomator-in-workspaceone-uem)
 - [Introduction](#introduction)
