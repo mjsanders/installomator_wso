@@ -15,9 +15,9 @@ MacAdmins slack: [@maurits](https://macadmins.slack.com/team/U0AKAA678)
 - [Choice : use Script or App?](#choice--use-script-or-app)
 - [Option 1 - Script](#option-1---script)
 	- [Hub view of script](#hub-view-of-script)
-	- [troubleshoot script installation](#troubleshoot-script-installation)
+	- [Troubleshoot script installation](#troubleshoot-script-installation)
 - [Option 2 - Internal App](#option-2---internal-app)
-	- [create payload-free pkg](#create-payload-free-pkg)
+	- [Create payload-free pkg](#create-payload-free-pkg)
 	- [Create app with payload-free pkg in WSO](#create-app-with-payload-free-pkg-in-wso)
 	- [Hub view of app](#hub-view-of-app)
 	- [Troubleshooting app installation](#troubleshooting-app-installation)
@@ -53,9 +53,9 @@ How can we present this script to the user or make WSO run this script?
 
 # Choice : use Script or App?
 
-To make icons available in the Hub for Self-Service you can add a **script** or an **internal App** to the Hub. 
+To make a script manageable by WSO (i.e. make auto-install and/or make available in the Intelligent Hub for Self-Service,) you should add a **script** or an **internal App** , and (optionally) make availble in the Hub.
 
-We will show both options and discuss differences later.
+We will show both options, and discuss differences later.
 
 # Option 1 - Script
 Scripts can be run at specific moments, or on-demand from the Hub, with icon, description.
@@ -66,16 +66,20 @@ Navigate to you WSO portal to the Resources - Scripts section
 
  click  **Add** a script for macOS :
 
-Choose a name, Description and enable App Catalog Customisation, add logo similar to this:
+Choose a name, Description and **enable** App Catalog Customisation (to make availalbe to user in the Hub), add logo similar to this:
 <img src="images/script-iTerm-1.png">
 Click **Next**
 
-Choose Languare **Zsh**, execution context and timeout **120** (tailor to your needs, the default 30 is too short).
+Choose Language **Zsh**, execution context and timeout **120** (tailor to your needs, the default 30 is too short).
 Copy the script (example [install-iTerm.sh](wso_scripts/install-iTerm.sh)) similar to this:
 <img src="images/script-iTerm-2.png">
 
-*Sidestep on the Variables in our example script: We use the WSO logo and no notifications, since the user has just clicked a button in the Hub. In our view more notifications will be overkill.
-The result of the logo can be seen in the osascript based dialog if the app is open:*
+Sidestep on the Variables in our example script: 
+- NOTIFY=silent : The user has just clicked a button in the Hub. In our view more notifications will be overkill.
+- BLOCKING_PROCESS_ACTION=prompt_user : in our view better suited than the default tell_user 
+- LOGO=ws1 : to create a unified look and feel to notifications
+
+The result of the logo can be seen in the osascript based dialog if the app is open:
 <img src="images/quit-webex.png">
 
 
@@ -98,10 +102,11 @@ Choose **NO** triggers, but  **enable** Show in Hub (optional)
 <img src="images/assign-iTerm-2.png">
 Click **Add**
 
-Done!
+**Script is ready**
+:tada:
 
 ## Hub view of script
-Go to a Mac to confirm this script is available in the Hub:
+Go to a Mac to confirm this script is available in the Hub,
 Open Intelligent Hub, and search for your *app-name*
 <img src="images/hub-app-1.png">
 Notice the title, icon and 'Run' button
@@ -114,12 +119,14 @@ If you click 'Run' you may see a temporary dialog 'Installing ...your_title...' 
 The app should be installed soon in /Applications/
 
 Note: if you have run the script once, the button changes to 'Rerun'
+
 <img src="images/hub-app-rerun.png">
 
 
-**Done !**
+**Script is tested and you'r done** 
+:tada:
 
-## troubleshoot script installation
+## Troubleshoot script installation
 You can troubleshoot in the WSO by searching for the MacBook, and in the **scripts** section you will see the script with a status and last execution time:
 <img src="images/UEM-log-1.png">
 view the detailed logs by clicking on the **View** link below Log
@@ -133,22 +140,23 @@ You can troubleshoot on the Mac by inspecting at the Installomator log at `/priv
 
 The main technology to install/update 'internal' apps is based on an integrated munki client. With each app WSO can (optionally) run pre- or post-install scripts.
 
-With installomator the install is done by a script, but WSO needs a package to manage the app. Therefor we create a payload-free package with [munkipkg](https://github.com/munki/munki-pkg) with a unique identifier and version. 
+With installomator the install is done by a script, but WSO needs a package to manage the app. In this document we create a payload-free package with [munkipkg](https://github.com/munki/munki-pkg) with a unique identifier and version, feel free to use your own favorite method to create a payload-free .pkg.
 
-## create payload-free pkg
-We use munkipkg for this.
-Basically you need to do these 3 steps:
+## Create payload-free pkg
+We use munkipkg for this task.
+Basically you need to do these 4 steps:
 1. create a new project with munkipkg:
 
 ```
 % ./munkipkg.py --create ..path/to../iTerm
 ```
 2. Edit the info.plist and 
-* set the **identifier** to my.org.iTerm (best practices to use different identifiers than the real app, to prevent confusion)
-* set the **version** to the current date (i.e. 24.06.18)
-  
-    example: 
+* set the **identifier** to my.org.iTerm 
+* set the **version** to a number (i.e. 24.06.18)
 
+(:see [Note on versions and identifiers with payload-free pkg](#note-on-versions-and-identifiers-with-payload-free-pkg))
+
+example: 
  ```
  <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -186,7 +194,7 @@ pkgbuild: Wrote package to ..path/to../iTerm/build/iTerm-24.06.18.pkg
 This should be the iTerm folder structure after this command:
 <img src="images/munkipkg-iTerm.png">
 
-4. Prepare this pkg for WSO with the WorkspaceONE Admin Assistant to create the metadata file and find the icon file.
+4. Prepare this pkg for WSO with the WorkspaceONE Admin Assistant to create the metadata file and find or create an icon file for the app. (tip: [icon generator](https://github.com/SAP/macOS-icon-generator))
 
 Output of Admin Assistant is default in your `~/Documents/Workspace ONE Admin Assistant/` folder.
 
@@ -196,6 +204,7 @@ Output of Admin Assistant is default in your `~/Documents/Workspace ONE Admin As
 Navigate to the Resources - Apps in WSO and add a new app:
 <img src="images/app-iTerm-1.png">
 Upload the .pkg file from the WSO Admin assistant output.
+
 Click on **Continue**
 
 <img src="images/app-iTerm-2.png">
@@ -203,6 +212,7 @@ Click on **Continue**
 Select the default **Full Software Management**
 
 Upload the .plist file from the WSO Admin assistant output as the metadata file.
+
 Click on **Continue**
 
 
@@ -228,8 +238,7 @@ We use the [uninstaller](https://github.com/erikstam/uninstaller) project for ma
 
 Click **Save & Assign**
 
-Done!
-
+**Done!** :tada:
 
 ## Hub view of app
 Navigate to the Mac Apps section or search for the app name:
@@ -240,7 +249,7 @@ Note the size (payload free is small), and version.
 Click on the icon to show all details for the app:
 <img src="images/hub-iterm-2.png">
 
-Note the description entered before and the **'Install'** button
+Note the description entered before (including typo :blush:) and the **'Install'** button
 
 Click **Install**
 
@@ -248,37 +257,37 @@ You may notice the short notification:
 
 <img src="images/hub-iterm-3.png">
 
-and the app iTerm should be installed soon.
+and the app should be installed soon.
+
+**Confirmed installation and your are done !**
 
 If you keep the app selected in the Hub notice the change of the buttons:
 <img src="images/hub-iterm-4.png">
 now **Install** is replaced with **Reinstall** and **Remove**.
 
-Done !
-
 If you would click **Remove**
 
 <img src="images/hub-iterm-5.png">
 
-the app should be removed using the uninstall script.
+the app should be removed using the uninstall script.*(or other method selected for uninstall for this app)*
 
 ## Troubleshooting app installation
-In UEM you can find the installed Apps by selecting a Mac, click the Apps tab, and select 'All Apps' to see the inventory report.
+In WSO you can find the installed Apps by selecting a Mac, click the Apps tab, and select 'All Apps' to see the inventory report.
 
 You may be surprised to see two verions of the App installed:
 <img src="images/UEM-app-iterm-twice.png">
 Notice the two versions:
 1. version 3.5.2 is the app as found by inventory check
-2. version 24.06.18 is the UEM managed (payload-free pkg).
+2. version 24.06.18 is the WSO managed (payload-free pkg).
 
 The version 3.5.2 is related to the identifier `com.googlecode.iterm2' as reported by inventory:
 <img src="images/UEM-iTerm-inventory.png">
 
-The version 24.06.18 is related to the identifier `com.vmw.macos.iTerm' as reported by created by UEM when you created the internal app in the steps above:
+The version 24.06.18 is related to the identifier `com.vmw.macos.iTerm' as reported by created by WSO when you created the internal app in the steps above:
 <img src="images/UEM-iTerm-managed.png">
 Notice the different keys listed here, and the 'Install' and 'Remove' buttons
 
-*The same behaviour can be seen if the app verions installed by UEM is using its internal update mechanism.*
+*The same behaviour can be seen if the app verions installed by WSO is using its internal update mechanism.*
 
 If you would click on the Managed Apps section, only the payload-free version 24.06.18 would be shown.
 
@@ -395,25 +404,25 @@ The actual version is shown in the 'All apps' section for a Mac. (see [troublesh
 
 There are four different **identifiers** used in different places. Lets use an example with Chrome: (Installomator label googlechromepkg) because iTerm is installed by expanding a .zip it does not leave a reciept.
 
-Locally there are 2 identifiers found:
+**Locally** there are 2 identifiers found:
 
 ```
 % pkgutil --pkgs |grep -i chrome                         
 com.google.Chrome
 my.org.chrome
 ```
-1. The `my.org.chrome` is from the payload-free pkg we created.
-2. The `com.google.Chrome` is from the .pkg installed by Installomator.
+1. The identifier `my.org.chrome` is from the payload-free pkg we created.
+2. The identifier `com.google.Chrome` is from the .pkg installed by Installomator.
 
-Some UEM workflows decide based on the `pkgutil --pkg-info` if an update is required or not. Therefor you should use a different identifier for your payload-free app, as the actual app has.
+Some WSO workflows decide based on the `pkgutil --pkg-info` if an update is required or not. Therefor you should use a different identifier for your payload-free app, as the actual app has.
 
-When you look in WSO at the Mac, under Installed apps you will see 2 other identifiers. 
+When you look in **WSO** at the Mac, under Installed apps you will see 2 other identifiers. 
  (see [troubleshooting-app-installation](#troubleshooting-app-installation) for screenshot examples)
 
-3. The identifier `com.vmware.mac.chrome` is created by UEM at the moment you add an internal app. The name start with com.vmware.mac. and is completed with the App Name.
-This identifier is and used to track installation of managed apps by UEM.
+3. The identifier `com.vmware.mac.chrome` is created by WSO at the moment you add an internal app. The name start with `com.vmware.mac.` and is completed with the App Name.
+This identifier is and used to track installation of managed apps by WSO.
 
-4. The identifier `com.google.Chrome`  is  found by inventory report
+4. The identifier `com.google.Chrome`  is  found by inventory report from the CFBundleIdentifier in the info.plist of the app
 
 See the section on [Note on patch management for WSO and Installomator](#note-on-patch-management-for-wso-and-installomator) how this impacts your patching.
 
